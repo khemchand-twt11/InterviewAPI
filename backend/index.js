@@ -2,6 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 const { config } = require("dotenv");
 const express = require("express");
 const { connection } = require("./Connection/Mongooseconnection");
+const { Register } = require("./Routes/register");
 const app = express();
 
 config();
@@ -36,6 +37,8 @@ app.post("/Openai/feedback", async (req,res) => {
   });
   res.send(chat_completion.data.choices[0].message);
 });
+
+app.use("/",Register);
 
 
 

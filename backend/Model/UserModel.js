@@ -21,3 +21,9 @@ const UserSchema = mongoose.Schema({
 }, {
     versionKey: false
 });
+
+const UserModel = mongoose.model("user",UserSchema);
+
+module.exports={
+    UserModel
+}
