@@ -1,8 +1,8 @@
-/* .main-content {
-  width: 80%;
-  border: 2px solid black;
+.main-content {
+  /* width: 95%; */
+  /* border: 2px solid black; */
   height: 70vh;
-} */
+}
 
 .btn {
   background-color: #3aa6b9;
@@ -13,4 +13,18 @@
   border-radius: 8px;
   display: inline-block;
   margin-top: 10px;
+}
+
+.fx {
+  display: flex;
+  border: 3px solid red;
+}
+.fx div:nth-child(1) {
+  border: 2px solid black;
+  flex: 1;
+}
+
+.fx div:nth-child(2) {
+  border: 2px solid teal;
+  flex: 1.5;
 }
