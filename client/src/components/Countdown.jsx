@@ -1,9 +1,12 @@
+// Countdown.jsx
 import React from "react";
 import { useState, useEffect } from "react";
 
 const Countdown = ({ handleSubmit }) => {
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(20);
+  const [isTimeOver, setIsTimeOver] = useState(false);
+
   useEffect(() => {
     let myInterval = setInterval(() => {
       if (seconds > 0) {
@@ -12,7 +15,7 @@ const Countdown = ({ handleSubmit }) => {
       if (seconds === 0) {
         if (minutes === 0) {
           clearInterval(myInterval);
-          handleSubmit();
+          setIsTimeOver(true);
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
@@ -24,13 +27,18 @@ const Countdown = ({ handleSubmit }) => {
     };
   });
 
+  useEffect(() => {
+    if (isTimeOver) {
+      handleSubmit();
+    }
+  }, [isTimeOver]);
+
   return (
     <div>
       {minutes === 0 && seconds === 0 ? (
         <h1>Time over</h1>
       ) : (
         <h1>
-          {" "}
           {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
         </h1>
       )}
