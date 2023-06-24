@@ -29,6 +29,32 @@ app.get("/Openai/:section", async (req, res) => {
   res.send(spliteddata);
 });
 
+app.get("/Openai/Objective/:section", async (req, res) => {
+  const { section } = req.params;
+  const chat_completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "user",
+        content: `Could you please provide me with 5 multiple-choice questions related to ${section}? Each question should be presented in a numbered format and be followed by 4 potential answer options labelled A, B, C, and D. In addition to this, the correct answer should be given in the line immediately following the list of options.
+
+        For example, it might look something like this:
+        
+        Which of the following is a primitive data type in JavaScript?
+        A) Number
+        B) Array
+        C) Object
+        D) String
+        Correct option: A) Number
+        Could you please follow the same format for the rest of the questions related to ${section}?`,
+      },
+    ],
+  });
+  let data = chat_completion.data.choices[0].message.content;
+  let spliteddata = data.split("\n");
+  res.send(spliteddata);
+});
+
 //  Api for Generating Answer
 app.post("/Openai/feedback", async (req, res) => {
   const { Question, Answer } = req.body;
@@ -45,13 +71,11 @@ app.post("/Openai/feedback", async (req, res) => {
   res.send(chat_completion.data.choices[0].message);
 });
 
-
-app.use("/",Register);
+app.use("/", Register);
 
 app.get("/", async (req, res) => {
   res.send("hello How can I help You");
 });
-
 
 app.listen(3000, async () => {
   try {
