@@ -1,22 +1,121 @@
-export default function Login() {
+import { useState } from "react";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+function LoginComponent({ userData, setUserData }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigate();
+  const handlePasswordToggle = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // try {
+    //   const data = await signup(url, userData);
+    //   localStorage.setItem("id", JSON.stringify(data.user._id));
+    //   if (data.token) {
+    //     navigation("/");
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
+  };
+
   return (
-    <>
-      <div className="flex items-center justify-center h-[80vh] w-full max-w-sm">
-        <div className="w-full ">
-          <form>
-            <input
-              type="text"
-              placeholder="name"
-              className="border-2 border-[#cacaca] outline-none rounded-md w-[95%] h-10 block mb-4 m-auto "
-            />
-            <input
-              type="email"
-              placeholder="email"
-              className="w-[95%] m-auto border-2 border-[#cacaca] outline-none rounded-md h-10 block"
-            />
+    <section className="h-[95vh] w-full flex justify-center gap-x-8 pt-5 px-4 md:px-0">
+      <div className="max-w-md w-full bg-white p-6 md:p-8 rounded-lg">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-700 text-center">
+            Welcome back
+          </h1>
+          <form className="mt-9">
+            <div className="mb-3 relative">
+              <input
+                type="email"
+                placeholder="Email"
+                className="block w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                name="email"
+                value={userData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="block w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                name="password"
+                value={userData.password}
+                onChange={handleChange}
+              />
+              {showPassword ? (
+                <IoEyeOffOutline
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                  onClick={handlePasswordToggle}
+                  size={28}
+                />
+              ) : (
+                <IoEyeOutline
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                  onClick={handlePasswordToggle}
+                  size={28}
+                />
+              )}
+            </div>
+            <div className="mb-5 text-center">
+              <a href="#" className="text-blue-500">
+                Forgot password?
+              </a>
+            </div>
+
+            <div className="mb-5">
+              <button
+                onClick={handleLogin}
+                className="w-full py-3 text-white bg-teal-500 rounded-lg hover:bg-teal-600 transition duration-300"
+              >
+                Login
+              </button>
+            </div>
           </form>
+          <div className="text-center mb-9">
+            <span>
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-500">
+                Signup
+              </Link>
+            </span>
+          </div>
+        </div>
+        <div className="border-t border-gray-300 my-9"></div>
+        <div className="flex items-center justify-center mb-6">
+          <a
+            href="#"
+            className="w-full py-3 flex items-center justify-center text-white bg-blue-800 rounded-lg "
+            style={{ background: "#4267b2" }}
+          >
+            <BsFacebook className="mr-3" />
+            <span>Login with Facebook</span>
+          </a>
+        </div>
+        <div className="flex items-center justify-center">
+          <a
+            href="#"
+            className="w-full py-3 flex items-center justify-center text-gray-700 border border-gray-300 rounded-lg"
+          >
+            <FcGoogle className="mr-3" />
+            <span>Login with Google</span>
+          </a>
         </div>
       </div>
-    </>
+    </section>
   );
 }
+
+export default LoginComponent;

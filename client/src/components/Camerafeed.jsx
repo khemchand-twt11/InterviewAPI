@@ -19,7 +19,7 @@ const Camerafeed = React.memo(() => {
     <div>
       <video
         ref={videoRef}
-        style={{ width: "80%", height:"100%"  }}
+        style={{ width: "80%", height: "100%" }}
         autoPlay
         playsInline
       />

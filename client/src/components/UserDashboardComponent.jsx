@@ -27,7 +27,8 @@ export default function UserDashboardComponent() {
         <option value="java">Java</option>
       </select>
       <button>
-        <Link to={`/interview/${selectedValue}`}>Take Interveiw</Link>
+        <Link to={`/Objective/${selectedValue}`}>Take Interveiw</Link>
+        {/* <Link to={`/interview/${selectedValue}`}>Take Interveiw</Link> */}
       </button>
     </div>
   );
