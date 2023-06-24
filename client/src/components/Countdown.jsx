@@ -3,8 +3,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 const Countdown = ({ handleSubmit }) => {
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(20);
+  const [minutes, setMinutes] = useState(2);
+  const [seconds, setSeconds] = useState(30);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
   useEffect(() => {

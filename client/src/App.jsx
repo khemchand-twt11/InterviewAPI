@@ -8,6 +8,7 @@ import UserDashboard from "./pages/UserDashboard";
 import "./App.css";
 import SharedLayout from "./pages/SharedLayout";
 import Interview from "./pages/Interview";
+import ObjectiveQuestions from "./components/ObjectiveQuestions";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/interview/:section" element={<Interview />} />
+          <Route path="/objective/:section" element={<ObjectiveQuestions />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,17 +1,22 @@
 // QuizComponent.jsx
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-
-const QuizComponent = () => {
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { Rings } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+const ObjectiveQuestions = () => {
   const [questions, setQuestions] = useState([]);
   const [options, setOptions] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
-
+  const { section } = useParams();
+  const navigate = useNavigate();
   const fetchData = async () => {
-    const url = "http://localhost:3000/Openai/objective/javascript";
+    const url =
+      "https://excited-nightshirt-hen.cyclic.app/Openai/objective/" +
+      `${section}`;
     const response = await fetch(url);
     const rawData = await response.json();
     console.log(rawData);
@@ -70,19 +75,26 @@ const QuizComponent = () => {
     });
 
     alert(`Your score is: ${score} out of ${questions.length}`);
+    console.log(`/interview/${section}`);
+    navigate(`/interview/${section}`, { replace: true });
   };
 
   return (
     <div className="p-4 md:p-10 bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="max-w-2xl w-full bg-white shadow rounded p-6">
         {loading ? (
-          <p class="capitalize ... flex space-x-4 ...">
-           <span>Wait for the Quesitons</span>
+          <p className="capitalize ... flex space-x-4 ...">
+            <span>Wait for the Quesitons</span>
             <span>
-              <FontAwesomeIcon
-                icon={faSpinner}
-                spin
-                className="fa-spin-reverse"
+              <Rings
+                height="80"
+                width="80"
+                color="#4fa94d"
+                radius="6"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="rings-loading"
               />
             </span>
           </p>
@@ -128,4 +140,4 @@ const QuizComponent = () => {
   );
 };
 
-export default QuizComponent;
+export default ObjectiveQuestions;
