@@ -1,7 +1,7 @@
 const express = require("express");
 const OpenAiQuestion = express.Router();
 const { Configuration, OpenAIApi } = require("openai");
-const {config} =require("dotenv");
+const { config } = require("dotenv");
 const { auth } = require("../../middleware/auth");
 
 config();
@@ -12,7 +12,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-OpenAiQuestion.get("/:section",auth,async (req, res) => {
+OpenAiQuestion.get("/:section", async (req, res) => {
   const { section } = req.params;
   const chat_completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
