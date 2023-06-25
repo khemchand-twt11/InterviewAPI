@@ -4,6 +4,8 @@ import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+const url = "http://localhost:3000/login";
 
 function LoginComponent({ userData, setUserData }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,19 +19,38 @@ function LoginComponent({ userData, setUserData }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // try {
-    //   const data = await signup(url, userData);
-    //   localStorage.setItem("id", JSON.stringify(data.user._id));
-    //   if (data.token) {
-    //     navigation("/");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
+    fetch(`${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message?.includes("Password is incorrect")) {
+          toast.error("Email or Passwords do not match!", { duration: 1500 });
+        } else {
+          toast.success("Login Successfully!", { duration: 1500 });
+          console.log(data);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", JSON.stringify(data.token));
+
+          setTimeout(() => {
+            navigation(`/dashboard`, { replace: true });
+          }, 1500);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("An error occurred during login.");
+      });
   };
 
   return (
     <section className="h-[95vh] w-full flex justify-center gap-x-8 pt-5 px-4 md:px-0">
+      <Toaster position="top-center" reverseOrder={false} />
+
       <div className="max-w-md w-full bg-white p-6 md:p-8 rounded-lg">
         <div>
           <h1 className="text-2xl font-bold text-gray-700 text-center">
