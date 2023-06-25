@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Rings } from "react-loader-spinner";
 import { BsFillPauseCircleFill, BsFillSendCheckFill } from "react-icons/bs";
 import { VscDebugContinue } from "react-icons/vsc";
 import { VscDebugStart } from "react-icons/vsc";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -12,13 +14,16 @@ import "../App.css";
 import Countdown from "./Countdown";
 import Camerafeed from "./Camerafeed";
 // const url = "https://excited-nightshirt-hen.cyclic.app/Openai/";
-const url = "http://localhost:3000/Openai/";
+const url = "https://worried-boa-capris.cyclic.app/Openai/";
 import ScreenShare from "./ScreenShare";
 const fetchData = async (url, param) => {
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = JSON.parse(localStorage.getItem("token"));
   try {
-    const res = await fetch(`${url}${param}`,{
-      headers: { 'Content-Type': 'application/json', Authorization:`Bearer ${token}`}
+    const res = await fetch(`${url}${param}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
     const data = await res.json();
     return data;
@@ -37,7 +42,7 @@ export default function InterviewComponent() {
   const divRef = useRef(null);
   const [feedback, setFeedback] = useState("");
   const [localTranscript, setLocalTranscript] = useState("");
-
+  const navigate = useNavigate();
   const { section } = useParams();
   const {
     transcript,
@@ -60,7 +65,6 @@ export default function InterviewComponent() {
     result();
   }, []);
 
-
   const handleSubmit = () => {
     if (hasSubmitted[questionNumber]) return;
 
@@ -73,7 +77,7 @@ export default function InterviewComponent() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
       body: JSON.stringify(obj),
     })
@@ -115,26 +119,32 @@ export default function InterviewComponent() {
     SpeechRecognition.stopListening();
     setstartOrPause(!startOrPause);
   };
-
+  const handleToastClose = () => {
+    navigate("/dashboard");
+  };
   const handleContinue = () => {
     if (questionNumber < questions.length - 1) {
       setQuestionNumber(questionNumber + 1);
       setFeedback("");
       resetTranscript();
       setLocalTranscript("");
+    } else {
+      toast.info("Thank You", {
+        position: toast.POSITION.TOP_CENTER,
+        onClose: handleToastClose,
+      });
     }
   };
 
   const handleLocalTranscript = (e) => {
     setLocalTranscript(e.target.value);
-   
   };
 
   return (
     <>
       {/* <ScreenShare /> */}
       {loading ? (
-        <div>
+        <div className="flex justify-center items-center h-screen">
           <Rings
             height="80"
             width="80"
@@ -229,7 +239,7 @@ export default function InterviewComponent() {
                   className="h-[25vh] border-rose-500 bg-slate-300"
                   style={{ paddingLeft: "40px" }}
                 >
-                  feedback
+                  feedback :
                   <div
                     style={{
                       color: "white",
@@ -243,6 +253,7 @@ export default function InterviewComponent() {
               </div>
             </div>
           </div>
+          <ToastContainer />
         </div>
       )}
     </>

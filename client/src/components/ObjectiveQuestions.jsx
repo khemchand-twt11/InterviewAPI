@@ -13,10 +13,14 @@ const ObjectiveQuestions = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const url = "http://localhost:3000/Openai/objective/" + `${section}`;
-    const token = JSON.parse(localStorage.getItem('token'));
-    const response = await fetch(url,{
-      headers: { 'Content-Type': 'application/json', Authorization:`Bearer ${token}`}
+    const url =
+      "https://worried-boa-capris.cyclic.app/Openai/objective/" + `${section}`;
+    const token = JSON.parse(localStorage.getItem("token"));
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
     const rawData = await response.json();
 

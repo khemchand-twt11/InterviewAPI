@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-const url = "http://localhost:3000/login";
+const url = "https://worried-boa-capris.cyclic.app/login";
 
 function LoginComponent({ userData, setUserData }) {
   const [showPassword, setShowPassword] = useState(false);

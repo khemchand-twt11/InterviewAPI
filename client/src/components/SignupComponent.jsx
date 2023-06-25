@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 // const url = "https://pear-splendid-bee.cyclic.app/users/register";
-const url = "http://localhost:3000/register";
+const url = "https://worried-boa-capris.cyclic.app/register";
 function SignupComponent({ userData, setUserData }) {
   const [showPasswordOne, setShowPasswordOne] = useState(false);
   const [showPasswordTwo, setShowPasswordTwo] = useState(false);
