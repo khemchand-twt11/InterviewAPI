@@ -1,25 +1,23 @@
-// QuizComponent.jsx
 import React, { useState, useEffect } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Rings } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+
 const ObjectiveQuestions = () => {
   const [questions, setQuestions] = useState([]);
   const [options, setOptions] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const { section } = useParams();
   const navigate = useNavigate();
+
   const fetchData = async () => {
     const url =
       "https://excited-nightshirt-hen.cyclic.app/Openai/objective/" +
       `${section}`;
     const response = await fetch(url);
     const rawData = await response.json();
-    console.log(rawData);
 
     let tempQuestions = [];
     let tempOptions = [];
@@ -53,7 +51,7 @@ const ObjectiveQuestions = () => {
     setCorrectAnswers(tempAnswers);
     setSelectedAnswers(Array(tempQuestions.length).fill(null));
 
-    setLoading(false); // Stop loading after data is fetched
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -75,34 +73,29 @@ const ObjectiveQuestions = () => {
     });
 
     alert(`Your score is: ${score} out of ${questions.length}`);
-    console.log(`/interview/${section}`);
     navigate(`/interview/${section}`, { replace: true });
   };
 
   return (
-    <div className="p-4 md:p-10 bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="max-w-2xl w-full bg-white shadow rounded p-6">
+    <div className="p-4 md:p-10 bg-gray-100 h-[90vh] flex items-center justify-center">
+      <div className="max-w-2xl w-full bg-white shadow rounded-lg p-6">
         {loading ? (
-          <p className="capitalize ... flex space-x-4 ...">
-            <span>Wait for the Quesitons</span>
-            <span>
-              <Rings
-                height="80"
-                width="80"
-                color="#4fa94d"
-                radius="6"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel="rings-loading"
-              />
-            </span>
-          </p>
+          <div className="flex items-center justify-center">
+            <p className="text-gray-700 mr-4">Loading Questions...</p>
+            <Rings
+              height={80}
+              width={80}
+              color="#4fa94d"
+              radius={6}
+              visible={true}
+              ariaLabel="rings-loading"
+            />
+          </div>
         ) : (
           <>
             {questions.map((question, questionIndex) => (
               <div key={questionIndex} className="mb-4">
-                <h2 className="text-lg mb-2 font-medium text-blue-700">
+                <h2 className="text-lg mb-2 font-medium text-blue-700 text-center">
                   {question}
                 </h2>
                 {options[questionIndex]?.map((option, optionIndex) => (
