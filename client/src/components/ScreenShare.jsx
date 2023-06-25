@@ -11,9 +11,16 @@ function ScreenShare({ onScreenShare }) {
         },
         audio: false,
       };
-      videoRef.current.srcObject = await navigator.mediaDevices.getDisplayMedia(
+      const mediaStream = await navigator.mediaDevices.getDisplayMedia(
         displayMediaOptions
       );
+
+      mediaStream.getTracks()[0].onended = function () {
+        alert("Your entire screen is not being shared!");
+      };
+
+      videoRef.current.srcObject = mediaStream;
+
       if (onScreenShare) {
         onScreenShare();
       } else {
