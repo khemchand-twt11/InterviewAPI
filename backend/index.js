@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const { connection } = require("./Connection/Mongooseconnection");
 const { Register } = require("./Routes/register");
+const { Login } = require("./Routes/login");
 const app = express();
 app.use(cors());
 
@@ -72,10 +73,13 @@ app.post("/Openai/feedback", async (req, res) => {
 });
 
 app.use("/", Register);
+app.use("/",Login);
+
 
 app.get("/", async (req, res) => {
   res.send("hello How can I help You");
 });
+
 
 app.listen(3000, async () => {
   try {
