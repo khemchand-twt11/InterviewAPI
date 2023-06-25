@@ -15,8 +15,11 @@ import Camerafeed from "./Camerafeed";
 const url = "http://localhost:3000/Openai/";
 import ScreenShare from "./ScreenShare";
 const fetchData = async (url, param) => {
+  const token = JSON.parse(localStorage.getItem('token'));
   try {
-    const res = await fetch(`${url}${param}`);
+    const res = await fetch(`${url}${param}`,{
+      headers: { 'Content-Type': 'application/json', Authorization:`Bearer ${token}`}
+    });
     const data = await res.json();
     return data;
   } catch (error) {
@@ -34,7 +37,6 @@ export default function InterviewComponent() {
   const divRef = useRef(null);
   const [feedback, setFeedback] = useState("");
   const [localTranscript, setLocalTranscript] = useState("");
-  const [lastTranscript, setLastTranscript] = useState("");
 
   const { section } = useParams();
   const {
@@ -58,15 +60,6 @@ export default function InterviewComponent() {
     result();
   }, []);
 
-  useEffect(() => {
-    if (transcript !== lastTranscript) {
-      setLocalTranscript(
-        (prevTranscript) =>
-          prevTranscript + " " + transcript.slice(lastTranscript.length).trim()
-      );
-      setLastTranscript(transcript);
-    }
-  }, [transcript]);
 
   const handleSubmit = () => {
     if (hasSubmitted[questionNumber]) return;
@@ -80,6 +73,7 @@ export default function InterviewComponent() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
       },
       body: JSON.stringify(obj),
     })
@@ -96,7 +90,6 @@ export default function InterviewComponent() {
         if (!listening) {
           resetTranscript();
           setLocalTranscript("");
-          setLastTranscript("");
         }
       });
   };
@@ -121,7 +114,6 @@ export default function InterviewComponent() {
   const handleStop = () => {
     SpeechRecognition.stopListening();
     setstartOrPause(!startOrPause);
-    setLastTranscript("");
   };
 
   const handleContinue = () => {
@@ -130,13 +122,12 @@ export default function InterviewComponent() {
       setFeedback("");
       resetTranscript();
       setLocalTranscript("");
-      setLastTranscript("");
     }
   };
 
   const handleLocalTranscript = (e) => {
     setLocalTranscript(e.target.value);
-    setLastTranscript("");
+   
   };
 
   return (
@@ -228,10 +219,10 @@ export default function InterviewComponent() {
                     cols="30"
                     rows="5"
                     className="w-[100%] h-[100%] outline-none p-4 text-lg"
-                    value={localTranscript}
+                    value={transcript}
                     onChange={(e) => handleLocalTranscript(e)}
                   >
-                    {localTranscript}
+                    {transcript}
                   </textarea>
                 </div>
                 <div

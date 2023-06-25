@@ -14,8 +14,10 @@ const ObjectiveQuestions = () => {
 
   const fetchData = async () => {
     const url = "http://localhost:3000/Openai/objective/" + `${section}`;
-    console.log(url);
-    const response = await fetch(url);
+    const token = JSON.parse(localStorage.getItem('token'));
+    const response = await fetch(url,{
+      headers: { 'Content-Type': 'application/json', Authorization:`Bearer ${token}`}
+    });
     const rawData = await response.json();
 
     let tempQuestions = [];
