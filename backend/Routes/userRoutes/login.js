@@ -2,8 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const Login = express.Router();
 const jwt = require("jsonwebtoken");
-const { UserModel } = require("../Model/UserModel");
-const { auth } = require("../middleware/auth");
+const { UserModel } = require("../../Model/UserModel");
+const {auth} = require("../../middleware/auth")
 
 Login.post("/login", async (req, res) => {
   const { email, password } = req.body;
