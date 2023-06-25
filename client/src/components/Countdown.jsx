@@ -36,10 +36,10 @@ const Countdown = ({ handleSubmit }) => {
   return (
     <div>
       {minutes === 0 && seconds === 0 ? (
-        <h1>Time over</h1>
+        <h1 className="text-lg font-bold">Time over</h1>
       ) : (
-        <h1>
-          {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+        <h1 className="text-lg font-bold">
+          Timer : {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
         </h1>
       )}
     </div>

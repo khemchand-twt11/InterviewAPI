@@ -13,9 +13,8 @@ const ObjectiveQuestions = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const url =
-      "https://excited-nightshirt-hen.cyclic.app/Openai/objective/" +
-      `${section}`;
+    const url = "http://localhost:3000/Openai/objective/" + `${section}`;
+    console.log(url);
     const response = await fetch(url);
     const rawData = await response.json();
 
@@ -77,10 +76,10 @@ const ObjectiveQuestions = () => {
   };
 
   return (
-    <div className="p-4 md:p-10 bg-gray-100 h-[90vh] flex items-center justify-center">
-      <div className="max-w-2xl w-full bg-white shadow rounded-lg p-6">
+    <div className="p-4 md:p-10  flex items-center justify-center">
+      <div className="max-w-2xl w-full  rounded-lg p-6">
         {loading ? (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center h-[60vh]">
             <p className="text-gray-700 mr-4">Loading Questions...</p>
             <Rings
               height={80}
@@ -93,39 +92,41 @@ const ObjectiveQuestions = () => {
           </div>
         ) : (
           <>
-            {questions.map((question, questionIndex) => (
-              <div key={questionIndex} className="mb-4">
-                <h2 className="text-lg mb-2 font-medium text-blue-700 text-center">
-                  {question}
-                </h2>
-                {options[questionIndex]?.map((option, optionIndex) => (
-                  <div key={optionIndex} className="mb-2">
-                    <label
-                      htmlFor={`question-${questionIndex}-option-${optionIndex}`}
-                      className="inline-flex items-center cursor-pointer text-sm text-gray-700"
-                    >
-                      <input
-                        id={`question-${questionIndex}-option-${optionIndex}`}
-                        type="radio"
-                        name={`question-${questionIndex}`}
-                        value={option}
-                        className="form-radio mr-2 text-blue-500"
-                        onChange={() =>
-                          handleAnswerChange(questionIndex, optionIndex)
-                        }
-                      />
-                      {option}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            ))}
-            <button
-              onClick={handleSubmit}
-              className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
-            >
-              Submit
-            </button>
+            <div>
+              {questions.map((question, questionIndex) => (
+                <div key={questionIndex} className="mb-4">
+                  <h2 className="text-lg mb-2 font-medium text-blue-700">
+                    {question}
+                  </h2>
+                  {options[questionIndex]?.map((option, optionIndex) => (
+                    <div key={optionIndex} className="mb-2">
+                      <label
+                        htmlFor={`question-${questionIndex}-option-${optionIndex}`}
+                        className="inline-flex items-center cursor-pointer text-sm text-gray-700"
+                      >
+                        <input
+                          id={`question-${questionIndex}-option-${optionIndex}`}
+                          type="radio"
+                          name={`question-${questionIndex}`}
+                          value={option}
+                          className="form-radio mr-2 text-blue-500"
+                          onChange={() =>
+                            handleAnswerChange(questionIndex, optionIndex)
+                          }
+                        />
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <button
+                onClick={handleSubmit}
+                className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+              >
+                Submit
+              </button>
+            </div>
           </>
         )}
       </div>

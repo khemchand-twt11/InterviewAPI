@@ -16,10 +16,10 @@ const Camerafeed = React.memo(() => {
   }, []); // <-- Don't forget to pass an empty dependencies array to useEffect
 
   return (
-    <div>
+    <div className="w-full">
       <video
         ref={videoRef}
-        style={{ width: "80%", height: "100%" }}
+        className="rounded-xl w-[85%] h-3/6"
         autoPlay
         playsInline
       />
